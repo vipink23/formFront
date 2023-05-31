@@ -95,5 +95,17 @@ input[type="checkbox"] {
 .error{
     color: red;
     display: flex;
+    font-size: 14px;
+    margin-top: -10px;
+    margin-left: 5px;
     
+}
+.err {
+  color: red;
+  font-size: 14px;
+  margin-top: -10px;
+  margin-right: 110px;
+}
+.input-error {
+  border: 1px solid red;
 }

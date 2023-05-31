@@ -6,20 +6,45 @@ import   axios from '../Axios/Axios'
 
 function SignIn() {
   
+ 
+  
   const navigate = useNavigate();
-  const onsubmit = (e) => {
-    console.log(e);
-     axios.post('/signup',e).then((res)=>{
-      console.log(res.data);
-      if(res.data.success){
-        navigate ('/login')
-      }
+  // const onsubmit = (e) => {
+  //   console.log(e);
+  //    axios.post('/signup',e).then((res)=>{
+  //     console.log(res.data);
+  //     if(res.data.success){
+  //       navigate ('/login')
+  //     }if(res.data.successs){
+  //      console.log(res.data.successs ,"false")
+  //     }
 
-     })
+  //    })
     // setSubmit(true)
     // console.log(email);
     // console.log(name);
+  //};
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const onsubmit = (e) => {
+    console.log(e);
+    axios.post('/signup', e)
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.success) {
+          navigate('/login');
+        } else {
+          setErrorMessage('Email is already exists...');
+        }
+      })
+      // .catch((error) => {
+      //   console.log('An error occurred:', error);
+      //   // Handle the error here if needed
+      // });
   };
+
+
+
  
 
   const {
@@ -33,7 +58,7 @@ function SignIn() {
     <div>
       <div style={{display: 'flex', alignItems: 'center', position: 'absolute', top: '0', right: '0', marginTop: '1px', marginRight: '20px'}}>
         <p style={{marginRight: '10px'}}>already have an account</p>
-        <button style={{backgroundImage: 'linear-gradient(45deg, #9dbddd, #2a42a2)'}} onClick={()=>navigate('/login')}>register</button>
+        <button style={{backgroundImage: 'linear-gradient(45deg, #9dbddd, #2a42a2)'}} onClick={()=>navigate('/login')}>Sign in</button>
       </div>
       <div class="login-page">
         <div className="form">
@@ -56,13 +81,16 @@ function SignIn() {
               Email
             </label>
             <input
+            type="email"
             //   type="email"
               {...register("email", { required: "fill the email",
                pattern:{
                 value:/^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/,
                 message:'invalid email id'
                } })}
-            />{errors?.email && (<p className="error">{errors?.email?.message}</p>)}
+               className={errorMessage ? "input-error" : ""}
+            />{errors?.email && (<p className="error">{errors?.email?.message}</p>)}  
+            {errorMessage && <p className="err">{errorMessage}</p>}
             <label className="lab" for="password">
               Choose Password
             </label>
@@ -74,7 +102,9 @@ function SignIn() {
                 message: 'must have 6 numbers' 
               } })}
             />{errors?.password && (<p className="error">{errors?.password?.message}</p>)}
+           
             <button>signup</button>
+            
           </form>
         </div>
       </div>
